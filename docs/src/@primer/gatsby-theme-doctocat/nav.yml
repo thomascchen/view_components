@@ -46,6 +46,8 @@
       url: /components/dropdown
     - title: DropdownMenu
       url: /components/dropdownmenu
+    - title: FileAttachment
+      url: /components/fileattachment
     - title: Flash
       url: /components/flash
     - title: Flex
