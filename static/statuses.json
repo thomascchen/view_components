@@ -20,6 +20,7 @@
   "Primer::Dropdown::MenuComponent": "alpha",
   "Primer::DropdownComponent": "alpha",
   "Primer::DropdownMenuComponent": "deprecated",
+  "Primer::FileAttachment": "alpha",
   "Primer::FlashComponent": "beta",
   "Primer::FlexComponent": "deprecated",
   "Primer::FlexItemComponent": "deprecated",
