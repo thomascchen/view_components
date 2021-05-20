@@ -1,11 +1,12 @@
-<%= render(Primer::AutoComplete.new(src: "/users/search", id: "user-popup", position: :relative)) do |c| %>
-  <% c.input(type: :text, name: "input") %>
+<%= render(Primer::AutoComplete.new(src: "/auto_complete", id: "fruits-popup", position: :relative)) do |c| %>
+  <% c.label(id: 'example-label-3').with_content("Fruits") %>
+  <% c.input(id: 'example-input-3', type: :text, name: "input") %>
   <% c.results(classes: "custom-class") do %>
-    <%= render(Primer::AutoComplete::Item.new(selected: true, value: "value")) do |c| %>
-      Selected
+    <%= render(Primer::AutoComplete::Item.new(selected: true, value: "apple")) do |c| %>
+      Apple
     <% end %>
-    <%= render(Primer::AutoComplete::Item.new(value: "value")) do |c| %>
-      Not selected
+    <%= render(Primer::AutoComplete::Item.new(value: "orange")) do |c| %>
+      Orange
     <% end %>
   <% end %>
 <% end %>

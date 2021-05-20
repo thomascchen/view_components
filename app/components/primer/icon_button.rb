@@ -53,7 +53,7 @@ module Primer
         "Box-btn-octicon" => box
       )
 
-      validate_aria_label
+      validate_aria_label(@system_arguments)
     end
 
     def call

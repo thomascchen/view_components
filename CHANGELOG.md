@@ -2,6 +2,7 @@
 
 ## main
 
+<<<<<<< HEAD
 ## 0.0.42
 
 ### New
@@ -19,6 +20,13 @@
 * Add `align` option to the `TabNav` extra slot to allow HTML ordering.
 
     *Manuel Puyol*
+=======
+### Accessibility
+
+* Require a label or `aria-label` to be provided for `AutoComplete` component.
+
+    *Kate Higa*
+>>>>>>> 38ed6fbc (update tests, documentation)
 
 ### Misc
 
