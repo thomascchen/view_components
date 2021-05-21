@@ -17,23 +17,25 @@ This list is populated by server search results.
 
 ## Accessibility
 
-Always provide an accessible label. To show a visible label, set the `label` slot.
-This renders a `<label>` which Primer will link to the correct elements.
+Always provide an accessible label to help the user interact with the input element and list.
 
-If you do not wish to provide a visible label, you must set an `aria-label`. You can do this by setting
-`aria-label` directly on `AutoComplete` instead of the nested slots. Primer will forward this `aria-label`
-to the necessary slot elements.
+To show a visible label, set the `label` slot. This renders a `<label>` element which Primer will link
+to the correct elements.
+
+If you do not wish to provide a visible label, you must set an `aria-label`. You may set
+`aria-label` directly on `AutoComplete` rather than nested slots and Primer will forward it
+to the correct elements.
 
 ## Examples
 
 ### Default
 
-<Example src="<label id='example-1-label' data-view-component='true'>Fruits</label><auto-complete src='/auto_complete' for='fruits-popup-1' data-view-component='true' class='position-relative'>  <input id='example-1-input' name='input' aria-labelledby='example-1-label' type='text' data-view-component='true' class='form-control'></input>    <ul id='fruits-popup-1' role='listbox' aria-labelledby='example-1-label' data-view-component='true' class='autocomplete-results'>    <li role='option' data-autocomplete-value='value' aria-selected='true' data-view-component='true' class='autocomplete-item'>      Apple</li>    <li role='option' data-autocomplete-value='value' data-view-component='true' class='autocomplete-item'>      Orange</li></ul></auto-complete>" />
+<Example src="<label id='example-1-label' data-view-component='true'>Fruits</label><auto-complete src='/auto_complete' for='fruits-popup-1' data-view-component='true' class='position-relative'>  <input name='input' aria-labelledby='example-1-label' type='text' data-view-component='true' class='form-control'></input>    <ul id='fruits-popup-1' role='listbox' aria-labelledby='example-1-label' data-view-component='true' class='autocomplete-results'>    <li role='option' data-autocomplete-value='value' aria-selected='true' data-view-component='true' class='autocomplete-item'>      Apple</li>    <li role='option' data-autocomplete-value='value' data-view-component='true' class='autocomplete-item'>      Orange</li></ul></auto-complete>" />
 
 ```erb
 <%= render(Primer::AutoComplete.new(src: "/auto_complete", id: "fruits-popup-1", position: :relative)) do |c| %>
   <% c.label(id: 'example-1-label').with_content("Fruits") %>
-  <% c.input(id: 'example-1-input', type: :text, name: "input") %>
+  <% c.input(type: :text, name: "input") %>
   <% c.results do %>
     <%= render(Primer::AutoComplete::Item.new(selected: true, value: "value")) do |c| %>
       Apple
@@ -47,11 +49,11 @@ to the necessary slot elements.
 
 ### With `aria-label`
 
-<Example src="<auto-complete src='/auto_complete' for='fruits-popup-2' data-view-component='true' class='position-relative'>  <input id='example-2-input' name='input' aria-label='Fruits' type='text' data-view-component='true' class='form-control'></input>    <ul id='fruits-popup-2' role='listbox' aria-label='Fruits' data-view-component='true' class='autocomplete-results'>    <li role='option' data-autocomplete-value='apple' aria-selected='true' data-view-component='true' class='autocomplete-item'>      Apple</li>    <li role='option' data-autocomplete-value='orange' data-view-component='true' class='autocomplete-item'>      Orange</li></ul></auto-complete>" />
+<Example src="<auto-complete src='/auto_complete' for='fruits-popup-2' data-view-component='true' class='position-relative'>  <input name='input' aria-label='Fruits' type='text' data-view-component='true' class='form-control'></input>    <ul id='fruits-popup-2' role='listbox' aria-label='Fruits' data-view-component='true' class='autocomplete-results'>    <li role='option' data-autocomplete-value='apple' aria-selected='true' data-view-component='true' class='autocomplete-item'>      Apple</li>    <li role='option' data-autocomplete-value='orange' data-view-component='true' class='autocomplete-item'>      Orange</li></ul></auto-complete>" />
 
 ```erb
 <%= render(Primer::AutoComplete.new(src: "/auto_complete", id: "fruits-popup-2", position: :relative, "aria-label": "Fruits")) do |c| %>
-  <% c.input(id: 'example-2-input', type: :text, name: "input") %>
+  <% c.input(type: :text, name: "input") %>
   <% c.results do %>
     <%= render(Primer::AutoComplete::Item.new(selected: true, value: "apple")) do |c| %>
       Apple
@@ -65,12 +67,12 @@ to the necessary slot elements.
 
 ### With custom classes for the results
 
-<Example src="<label id='example-label-3' data-view-component='true'>Fruits</label><auto-complete src='/auto_complete' for='fruits-popup-3' data-view-component='true' class='position-relative'>  <input id='example-input-3' name='input' aria-labelledby='example-label-3' type='text' data-view-component='true' class='form-control'></input>    <ul id='fruits-popup-3' role='listbox' aria-labelledby='example-label-3' data-view-component='true' class='autocomplete-results my-custom-class'>    <li role='option' data-autocomplete-value='apple' aria-selected='true' data-view-component='true' class='autocomplete-item'>      Apple</li>    <li role='option' data-autocomplete-value='orange' data-view-component='true' class='autocomplete-item'>      Orange</li></ul></auto-complete>" />
+<Example src="<label id='example-label-3' data-view-component='true'>Fruits</label><auto-complete src='/auto_complete' for='fruits-popup-3' data-view-component='true' class='position-relative'>  <input name='input' aria-labelledby='example-label-3' type='text' data-view-component='true' class='form-control'></input>    <ul id='fruits-popup-3' role='listbox' aria-labelledby='example-label-3' data-view-component='true' class='autocomplete-results my-custom-class'>    <li role='option' data-autocomplete-value='apple' aria-selected='true' data-view-component='true' class='autocomplete-item'>      Apple</li>    <li role='option' data-autocomplete-value='orange' data-view-component='true' class='autocomplete-item'>      Orange</li></ul></auto-complete>" />
 
 ```erb
 <%= render(Primer::AutoComplete.new(src: "/auto_complete", id: "fruits-popup-3", position: :relative)) do |c| %>
   <% c.label(id: 'example-label-3').with_content("Fruits") %>
-  <% c.input(id: 'example-input-3', type: :text, name: "input") %>
+  <% c.input(type: :text, name: "input") %>
   <% c.results(classes: "my-custom-class") do %>
     <%= render(Primer::AutoComplete::Item.new(selected: true, value: "apple")) do |c| %>
       Apple
@@ -89,7 +91,7 @@ to the necessary slot elements.
 ```erb
 <%= render(Primer::AutoComplete.new(src: "/auto_complete", id: "fruits-popup", position: :relative)) do |c| %>
   <% c.label(id: 'example-label-4').with_content("Fruits") %>
-  <% c.input(type: :text, name: "input", id: "example-input-4") %>
+  <% c.input(name: "input", id: "example-input-4") %>
   <% c.icon(icon: :search) %>
   <% c.results do %>
     <%= render(Primer::AutoComplete::Item.new(selected: true, value: "apple")) do |c| %>
@@ -114,11 +116,11 @@ to the necessary slot elements.
 
 ### `Label`
 
-Set this slot to render a visible label
+Optionally render a visible label. See [Accessibility](#system-arguments)
 
 | Name | Type | Default | Description |
 | :- | :- | :- | :- |
-| `id` | `Symbol` | N/A | Used to link the label with relevant elements. |
+| `id` | `Symbol` | N/A | Allows label to be linked to appropriate elements |
 | `system_arguments` | `Hash` | N/A | [System arguments](/system-arguments) |
 
 ### `Input`

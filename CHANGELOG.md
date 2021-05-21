@@ -2,6 +2,7 @@
 
 ## main
 
+<<<<<<< HEAD
 ### Accessibility
 
 * Require a label or `aria-label` to be provided for `AutoComplete` component.
@@ -26,6 +27,8 @@
 
     *Manuel Puyol*
 
+=======
+>>>>>>> 2659526b (tests pass for new approach)
 ### Misc
 
 * Auto-generate component previews from doc examples and run integration test checks.
@@ -45,6 +48,10 @@
     *Manuel Puyol*
 
 ### Breaking changes
+
+* Require a label or `aria-label` to be provided for `AutoComplete` component.
+
+    *Kate Higa*
 
 * Restrict allowed tags for `Truncate`, `Markdown`, and `HiddenTextExpander`.
 

@@ -1,5 +1,5 @@
 <%= render(Primer::AutoComplete.new(src: "/auto_complete", id: "fruits-popup-2", position: :relative, "aria-label": "Fruits")) do |c| %>
-  <% c.input(id: 'example-2-input', type: :text, name: "input") %>
+  <% c.input(type: :text, name: "input") %>
   <% c.results do %>
     <%= render(Primer::AutoComplete::Item.new(selected: true, value: "apple")) do |c| %>
       Apple

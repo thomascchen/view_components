@@ -4,21 +4,23 @@ module Primer
   # Use `AutoComplete` to provide a user with a list of selectable suggestions that appear when they type into the input field.
   # This list is populated by server search results.
   # @accessibility
-  #   Always provide an accessible label. To show a visible label, set the `label` slot.
-  #   This renders a `<label>` which Primer will link to the correct elements.
+  #   Always provide an accessible label to help the user interact with the input element and list.
   #
-  #   If you do not wish to provide a visible label, you must set an `aria-label`. You can do this by setting
-  #   `aria-label` directly on `AutoComplete` instead of the nested slots. Primer will forward this `aria-label`
-  #   to the necessary slot elements.
+  #   To show a visible label, set the `label` slot. This renders a `<label>` element which Primer will link
+  #   to the correct elements.
+  #
+  #   If you do not wish to provide a visible label, you must set an `aria-label`. You may set
+  #   `aria-label` directly on `AutoComplete` rather than nested slots and Primer will forward it
+  #   to the correct elements.
   class AutoComplete < Primer::Component
     status :beta
 
     DEFAULT_INPUT_TYPE = :text
     INPUT_TYPE_OPTIONS = [DEFAULT_INPUT_TYPE, :search].freeze
 
-    # Set this slot to render a visible label
+    # Optionally render a visible label. See <%= link_to_accessibility %>
     #
-    # @param id [Symbol] Used to link the label with relevant elements.
+    # @param id [Symbol] Allows label to be linked to appropriate elements
     # @param system_arguments [Hash] <%= link_to_system_arguments_docs %>
     renders_one :label, lambda { |id:, **system_arguments|
       @label_id = id
@@ -46,6 +48,7 @@ module Primer
     }
 
     # Optional icon to be rendered before the input. Has the same arguments as <%= link_to_component(Primer::OcticonComponent) %>.
+    #
     renders_one :icon, Primer::OcticonComponent
 
     # Customizable results list.
@@ -72,7 +75,7 @@ module Primer
     # @example Default
     #   <%= render(Primer::AutoComplete.new(src: "/auto_complete", id: "fruits-popup-1", position: :relative)) do |c| %>
     #     <% c.label(id: 'example-1-label').with_content("Fruits") %>
-    #     <% c.input(id: 'example-1-input', type: :text, name: "input") %>
+    #     <% c.input(type: :text, name: "input") %>
     #     <% c.results do %>
     #       <%= render(Primer::AutoComplete::Item.new(selected: true, value: "value")) do |c| %>
     #         Apple
@@ -85,7 +88,7 @@ module Primer
     #
     # @example With `aria-label`
     #   <%= render(Primer::AutoComplete.new(src: "/auto_complete", id: "fruits-popup-2", position: :relative, "aria-label": "Fruits")) do |c| %>
-    #     <% c.input(id: 'example-2-input', type: :text, name: "input") %>
+    #     <% c.input(type: :text, name: "input") %>
     #     <% c.results do %>
     #       <%= render(Primer::AutoComplete::Item.new(selected: true, value: "apple")) do |c| %>
     #         Apple
@@ -113,7 +116,7 @@ module Primer
     # @example With Icon
     #   <%= render(Primer::AutoComplete.new(src: "/auto_complete", id: "fruits-popup", position: :relative)) do |c| %>
     #     <% c.label(id: 'example-label-4').with_content("Fruits") %>
-    #     <% c.input(type: :text, name: "input", id: "example-input-4") %>
+    #     <% c.input(name: "input", id: "example-input-4") %>
     #     <% c.icon(icon: :search) %>
     #     <% c.results do %>
     #       <%= render(Primer::AutoComplete::Item.new(selected: true, value: "apple")) do |c| %>
