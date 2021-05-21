@@ -1,17 +1,16 @@
 # frozen_string_literal: true
 
 module Primer
-  # Use `AutoComplete` to provide a user with a list of selectable suggestions that appear when they type into the input field.
-  # This list is populated by server search results.
+  # Use `AutoComplete` to provide a user with a list of selectable suggestions that appear when they type into the
+  # input field. This list is populated by server search results.
   # @accessibility
-  #   Always provide an accessible label to help the user interact with the input element and list.
+  #   Always provide an accessible label to help the user interact with the input element and listbox popup.
   #
-  #   To show a visible label, set the `label` slot. This renders a `<label>` element which Primer will link
-  #   to the correct elements.
+  #   To show a visible label, set the `label` slot. The`for` attribute must be set to the `id` of
+  #   `input` in order for the `<label>` to be properly linked.
   #
-  #   If you do not wish to provide a visible label, you must set an `aria-label`. You may set
-  #   `aria-label` directly on `AutoComplete` rather than nested slots and Primer will forward it
-  #   to the correct elements.
+  #   If you do not wish to provide a visible label, you must set an `aria-label` attribute. You may set
+  #   `:"aria-label"` directly on `AutoComplete` instead of the slots and Primer will apply it to the correct elements.
   class AutoComplete < Primer::Component
     status :beta
 
@@ -20,12 +19,14 @@ module Primer
 
     # Optionally render a visible label. See <%= link_to_accessibility %>
     #
-    # @param id [Symbol] Allows label to be linked to appropriate elements
+    # @param for [Symbol] id of input
     # @param system_arguments [Hash] <%= link_to_system_arguments_docs %>
-    renders_one :label, lambda { |id:, **system_arguments|
-      @label_id = id
+    renders_one :label, lambda { |**system_arguments|
+      raise ArgumentError, "missing keyword: for" if !system_arguments.key?(:for) && !Rails.env.production?
+
+      @input_id_for_label = system_arguments[:for]
       system_arguments[:tag] = :label
-      Primer::BaseComponent.new(id: id, **system_arguments)
+      Primer::BaseComponent.new(**system_arguments)
     }
 
     # Required input used to search for results
@@ -35,11 +36,12 @@ module Primer
     renders_one :input, lambda { |type: DEFAULT_INPUT_TYPE, classes: "form-control", **system_arguments|
       system_arguments[:tag] = :input
 
-      if @label_id.present?
-        system_arguments[:"aria-labelledby"] = @label_id if @label_id.present?
+      aria_label = system_arguments[:"aria-label"] || system_arguments.dig(:aria, :label) || @aria_label
+      if @input_id_for_label.present? && @input_id_for_label == system_arguments[:id]
+      elsif aria_label.present?
+        system_arguments[:"aria-label"] = aria_label
       else
-        system_arguments[:"aria-label"] = system_arguments[:"aria-label"] || system_arguments.dig(:aria, :label) || @aria_label
-        raise ArgumentError, "`aria-label` is required." if system_arguments[:"aria-label"].nil? && !Rails.env.production?
+        raise ArgumentError, "Accessible label is required." unless Rails.env.production?
       end
 
       system_arguments[:type] = fetch_or_fallback(INPUT_TYPE_OPTIONS, type, DEFAULT_INPUT_TYPE)
@@ -56,53 +58,33 @@ module Primer
     # @param system_arguments [Hash] <%= link_to_system_arguments_docs %>
     renders_one :results, lambda { |**system_arguments|
       system_arguments[:tag] = :ul
-      system_arguments[:id] = @id
-      system_arguments[:role] = :listbox
+      system_arguments[:id] = @list_id
       system_arguments[:classes] = class_names(
         "autocomplete-results",
         system_arguments[:classes]
       )
 
-      if @label_id.present?
-        system_arguments[:"aria-labelledby"] = @label_id if @label_id.present?
-      else
-        system_arguments[:"aria-label"] = system_arguments[:"aria-label"] || system_arguments.dig(:aria, :label) || @aria_label
-      end
+      aria_label = system_arguments[:"aria-label"] || system_arguments.dig(:aria, :label) || @aria_label
+      system_arguments[:"aria-label"] = aria_label if aria_label.present?
 
       Primer::BaseComponent.new(**system_arguments)
     }
 
     # @example Default
     #   <%= render(Primer::AutoComplete.new(src: "/auto_complete", id: "fruits-popup-1", position: :relative)) do |c| %>
-    #     <% c.label(id: 'example-1-label').with_content("Fruits") %>
-    #     <% c.input(type: :text, name: "input") %>
-    #     <% c.results do %>
-    #       <%= render(Primer::AutoComplete::Item.new(selected: true, value: "value")) do |c| %>
-    #         Apple
-    #       <% end %>
-    #       <%= render(Primer::AutoComplete::Item.new(value: "value")) do |c| %>
-    #         Orange
-    #       <% end %>
-    #     <% end %>
+    #     <% c.label(for: "example-input").with_content("Fruits") %>
+    #     <% c.input(id: "example-input", type: :text, name: "input") %>
     #   <% end %>
     #
     # @example With `aria-label`
-    #   <%= render(Primer::AutoComplete.new(src: "/auto_complete", id: "fruits-popup-2", position: :relative, "aria-label": "Fruits")) do |c| %>
+    #   <%= render(Primer::AutoComplete.new("aria-label": "Fruits", src: "/auto_complete", id: "fruits-popup-2", position: :relative)) do |c| %>
     #     <% c.input(type: :text, name: "input") %>
-    #     <% c.results do %>
-    #       <%= render(Primer::AutoComplete::Item.new(selected: true, value: "apple")) do |c| %>
-    #         Apple
-    #       <% end %>
-    #       <%= render(Primer::AutoComplete::Item.new(value: "orange")) do |c| %>
-    #         Orange
-    #       <% end %>
-    #     <% end %>
     #   <% end %>
     #
     # @example With custom classes for the results
     #   <%= render(Primer::AutoComplete.new(src: "/auto_complete", id: "fruits-popup-3", position: :relative)) do |c| %>
-    #     <% c.label(id: 'example-label-3').with_content("Fruits") %>
-    #     <% c.input(id: 'example-input-3', type: :text, name: "input") %>
+    #     <% c.label(for: "example-input-2").with_content("Fruits") %>
+    #     <% c.input(id: 'example-input-2', type: :text, name: "input") %>
     #     <% c.results(classes: "custom-class") do %>
     #       <%= render(Primer::AutoComplete::Item.new(selected: true, value: "apple")) do |c| %>
     #         Apple
@@ -114,27 +96,20 @@ module Primer
     #   <% end %>
     #
     # @example With Icon
-    #   <%= render(Primer::AutoComplete.new(src: "/auto_complete", id: "fruits-popup", position: :relative)) do |c| %>
-    #     <% c.label(id: 'example-label-4').with_content("Fruits") %>
-    #     <% c.input(name: "input", id: "example-input-4") %>
+    #   <%= render(Primer::AutoComplete.new(src: "/auto_complete", id: "fruits-popup-4", position: :relative)) do |c| %>
+    #     <% c.label(for: "example-input-3").with_content("Fruits") %>
+    #     <% c.input(id: "example-input-3", name: "input", ) %>
     #     <% c.icon(icon: :search) %>
-    #     <% c.results do %>
-    #       <%= render(Primer::AutoComplete::Item.new(selected: true, value: "apple")) do |c| %>
-    #         Apple
-    #       <% end %>
-    #       <%= render(Primer::AutoComplete::Item.new(value: "orange")) do |c| %>
-    #         Orange
-    #       <% end %>
-    #     <% end %>
     #   <% end %>
     #
     # @param src [String] The route to query.
     # @param id [String] Id of the list element.
     # @param system_arguments [Hash] <%= link_to_system_arguments_docs %>
     def initialize(src:, id:, **system_arguments)
-      @id = id
+      @list_id = id
+      @input_id_for_label = nil
       @aria_label = system_arguments[:"aria-label"] || system_arguments.dig(:aria, :label)
-      system_arguments.delete(:"aria-label")
+      system_arguments.delete(:"aria-label") && system_arguments[:aria]&.delete(:label)
 
       @system_arguments = system_arguments
       @system_arguments[:tag] = "auto-complete"

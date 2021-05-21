@@ -1,13 +1,5 @@
-<%= render(Primer::AutoComplete.new(src: "/auto_complete", id: "fruits-popup", position: :relative)) do |c| %>
-  <% c.label(id: 'example-label-4').with_content("Fruits") %>
-  <% c.input(name: "input", id: "example-input-4") %>
+<%= render(Primer::AutoComplete.new(src: "/auto_complete", id: "fruits-popup-4", position: :relative)) do |c| %>
+  <% c.label(for: "example-input-3").with_content("Fruits") %>
+  <% c.input(id: "example-input-3", name: "input", ) %>
   <% c.icon(icon: :search) %>
-  <% c.results do %>
-    <%= render(Primer::AutoComplete::Item.new(selected: true, value: "apple")) do |c| %>
-      Apple
-    <% end %>
-    <%= render(Primer::AutoComplete::Item.new(value: "orange")) do |c| %>
-      Orange
-    <% end %>
-  <% end %>
 <% end %>
