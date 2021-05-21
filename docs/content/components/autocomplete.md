@@ -12,24 +12,26 @@ import RequiresJSFlash from '../../src/@primer/gatsby-theme-doctocat/components/
 
 <!-- Warning: AUTO-GENERATED file, do not edit. Add code comments to your Ruby instead <3 -->
 
-Use `AutoComplete` to provide a user with suggestions that are populated by server search results.
+Use `AutoComplete` to provide a user with a list of selectable suggestions that appear when they type into the input field.
+This list is populated by server search results.
 
 ## Accessibility
 
-Always provide an accessible label for the input field to help the user understand the options provided.
-You can show a visible label by setting the `label` slot. This label will be provided for the input field and
-the listbox.
+Always provide an accessible label. To show a visible label, set the `label` slot.
+This renders a `<label>` which Primer will link to the correct elements.
 
-To set a non-visible label, set `aria-label` directly on the `input` and `results` slot.
+If you do not wish to provide a visible label, you must set an `aria-label`. You can do this by setting
+`aria-label` directly on `AutoComplete` instead of the nested slots. Primer will forward this `aria-label`
+to the necessary slot elements.
 
 ## Examples
 
 ### Default
 
-<Example src="<label id='example-1-label' data-view-component='true'>Fruits</label><auto-complete src='/auto_complete' for='fruits-popup' data-view-component='true' class='position-relative'>  <input id='example-1-input' name='input' aria-labelledby='example-1-label' type='text' data-view-component='true' class='form-control'></input>    <ul id='fruits-popup' aria-labelledby='example-1-label' data-view-component='true' class='autocomplete-results'>    <li role='option' data-autocomplete-value='value' aria-selected='true' data-view-component='true' class='autocomplete-item'>      Apple</li>    <li role='option' data-autocomplete-value='value' data-view-component='true' class='autocomplete-item'>      Orange</li></ul></auto-complete>" />
+<Example src="<label id='example-1-label' data-view-component='true'>Fruits</label><auto-complete src='/auto_complete' for='fruits-popup-1' data-view-component='true' class='position-relative'>  <input id='example-1-input' name='input' aria-labelledby='example-1-label' type='text' data-view-component='true' class='form-control'></input>    <ul id='fruits-popup-1' role='listbox' aria-labelledby='example-1-label' data-view-component='true' class='autocomplete-results'>    <li role='option' data-autocomplete-value='value' aria-selected='true' data-view-component='true' class='autocomplete-item'>      Apple</li>    <li role='option' data-autocomplete-value='value' data-view-component='true' class='autocomplete-item'>      Orange</li></ul></auto-complete>" />
 
 ```erb
-<%= render(Primer::AutoComplete.new(src: "/auto_complete", id: "fruits-popup", position: :relative)) do |c| %>
+<%= render(Primer::AutoComplete.new(src: "/auto_complete", id: "fruits-popup-1", position: :relative)) do |c| %>
   <% c.label(id: 'example-1-label').with_content("Fruits") %>
   <% c.input(id: 'example-1-input', type: :text, name: "input") %>
   <% c.results do %>
@@ -45,11 +47,11 @@ To set a non-visible label, set `aria-label` directly on the `input` and `result
 
 ### With `aria-label`
 
-<Example src="<auto-complete src='/auto_complete' for='fruits-popup' data-view-component='true' class='position-relative'>  <input id='example-2-input' name='input' aria-label='Fruits' type='text' data-view-component='true' class='form-control'></input>    <ul aria-label='Fruits' id='fruits-popup' data-view-component='true' class='autocomplete-results'></ul></auto-complete>" />
+<Example src="<auto-complete src='/auto_complete' for='fruits-popup-2' data-view-component='true' class='position-relative'>  <input id='example-2-input' name='input' aria-label='Fruits' type='text' data-view-component='true' class='form-control'></input>    <ul id='fruits-popup-2' role='listbox' aria-label='Fruits' data-view-component='true' class='autocomplete-results'>    <li role='option' data-autocomplete-value='apple' aria-selected='true' data-view-component='true' class='autocomplete-item'>      Apple</li>    <li role='option' data-autocomplete-value='orange' data-view-component='true' class='autocomplete-item'>      Orange</li></ul></auto-complete>" />
 
 ```erb
-<%= render(Primer::AutoComplete.new(src: "/auto_complete", id: "fruits-popup", position: :relative)) do |c| %>
-  <% c.input(id: 'example-2-input', type: :text, name: "input", "aria-label": "Fruits") %>
+<%= render(Primer::AutoComplete.new(src: "/auto_complete", id: "fruits-popup-2", position: :relative, "aria-label": "Fruits")) do |c| %>
+  <% c.input(id: 'example-2-input', type: :text, name: "input") %>
   <% c.results do %>
     <%= render(Primer::AutoComplete::Item.new(selected: true, value: "apple")) do |c| %>
       Apple
@@ -58,16 +60,15 @@ To set a non-visible label, set `aria-label` directly on the `input` and `result
       Orange
     <% end %>
   <% end %>
-  <% c.results("aria-label": "Fruits") %>
 <% end %>
 ```
 
 ### With custom classes for the results
 
-<Example src="<label id='example-label-3' data-view-component='true'>Fruits</label><auto-complete src='/auto_complete' for='fruits-popup' data-view-component='true' class='position-relative'>  <input id='example-input-3' name='input' aria-labelledby='example-label-3' type='text' data-view-component='true' class='form-control'></input>    <ul id='fruits-popup' aria-labelledby='example-label-3' data-view-component='true' class='autocomplete-results my-custom-class'>    <li role='option' data-autocomplete-value='apple' aria-selected='true' data-view-component='true' class='autocomplete-item'>      Apple</li>    <li role='option' data-autocomplete-value='orange' data-view-component='true' class='autocomplete-item'>      Orange</li></ul></auto-complete>" />
+<Example src="<label id='example-label-3' data-view-component='true'>Fruits</label><auto-complete src='/auto_complete' for='fruits-popup-3' data-view-component='true' class='position-relative'>  <input id='example-input-3' name='input' aria-labelledby='example-label-3' type='text' data-view-component='true' class='form-control'></input>    <ul id='fruits-popup-3' role='listbox' aria-labelledby='example-label-3' data-view-component='true' class='autocomplete-results my-custom-class'>    <li role='option' data-autocomplete-value='apple' aria-selected='true' data-view-component='true' class='autocomplete-item'>      Apple</li>    <li role='option' data-autocomplete-value='orange' data-view-component='true' class='autocomplete-item'>      Orange</li></ul></auto-complete>" />
 
 ```erb
-<%= render(Primer::AutoComplete.new(src: "/auto_complete", id: "fruits-popup", position: :relative)) do |c| %>
+<%= render(Primer::AutoComplete.new(src: "/auto_complete", id: "fruits-popup-3", position: :relative)) do |c| %>
   <% c.label(id: 'example-label-3').with_content("Fruits") %>
   <% c.input(id: 'example-input-3', type: :text, name: "input") %>
   <% c.results(classes: "my-custom-class") do %>
@@ -83,7 +84,7 @@ To set a non-visible label, set `aria-label` directly on the `input` and `result
 
 ### With Icon
 
-<Example src="<label id='example-label-4' data-view-component='true'>Fruits</label><auto-complete src='/auto_complete' for='fruits-popup' data-view-component='true' class='position-relative'>  <input name='input' id='example-input-4' aria-labelledby='example-label-4' type='text' data-view-component='true' class='form-control'></input>  <svg aria-hidden='true' viewBox='0 0 16 16' version='1.1' data-view-component='true' height='16' width='16' class='octicon octicon-search'>    <path fill-rule='evenodd' d='M11.5 7a4.499 4.499 0 11-8.998 0A4.499 4.499 0 0111.5 7zm-.82 4.74a6 6 0 111.06-1.06l3.04 3.04a.75.75 0 11-1.06 1.06l-3.04-3.04z'></path></svg>  <ul id='fruits-popup' aria-labelledby='example-label-4' data-view-component='true' class='autocomplete-results'>    <li role='option' data-autocomplete-value='apple' aria-selected='true' data-view-component='true' class='autocomplete-item'>      Apple</li>    <li role='option' data-autocomplete-value='orange' data-view-component='true' class='autocomplete-item'>      Orange</li></ul></auto-complete>" />
+<Example src="<label id='example-label-4' data-view-component='true'>Fruits</label><auto-complete src='/auto_complete' for='fruits-popup' data-view-component='true' class='position-relative'>  <input name='input' id='example-input-4' aria-labelledby='example-label-4' type='text' data-view-component='true' class='form-control'></input>  <svg aria-hidden='true' viewBox='0 0 16 16' version='1.1' data-view-component='true' height='16' width='16' class='octicon octicon-search'>    <path fill-rule='evenodd' d='M11.5 7a4.499 4.499 0 11-8.998 0A4.499 4.499 0 0111.5 7zm-.82 4.74a6 6 0 111.06-1.06l3.04 3.04a.75.75 0 11-1.06 1.06l-3.04-3.04z'></path></svg>  <ul id='fruits-popup' role='listbox' aria-labelledby='example-label-4' data-view-component='true' class='autocomplete-results'>    <li role='option' data-autocomplete-value='apple' aria-selected='true' data-view-component='true' class='autocomplete-item'>      Apple</li>    <li role='option' data-autocomplete-value='orange' data-view-component='true' class='autocomplete-item'>      Orange</li></ul></auto-complete>" />
 
 ```erb
 <%= render(Primer::AutoComplete.new(src: "/auto_complete", id: "fruits-popup", position: :relative)) do |c| %>
@@ -113,10 +114,11 @@ To set a non-visible label, set `aria-label` directly on the `input` and `result
 
 ### `Label`
 
-Set this slot to show a visible label.
+Set this slot to render a visible label
 
 | Name | Type | Default | Description |
 | :- | :- | :- | :- |
+| `id` | `Symbol` | N/A | Used to link the label with relevant elements. |
 | `system_arguments` | `Hash` | N/A | [System arguments](/system-arguments) |
 
 ### `Input`

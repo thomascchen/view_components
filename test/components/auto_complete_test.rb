@@ -15,7 +15,7 @@ class PrimerAutoCompleteTest < Minitest::Test
 
   def test_renders_results_without_explicitly_calling_it
     render_inline Primer::AutoComplete.new(src: "/url", id: "my-id") do |component|
-      component.label(id: "test-label").with_content("Choices")
+      component.label(id: "test-label")
       component.input(name: "input")
     end
 
@@ -40,6 +40,17 @@ class PrimerAutoCompleteTest < Minitest::Test
     end
   end
 
+  def test_applies_aria_label_on_relevant_elements
+    render_inline Primer::AutoComplete.new(src: "/url", id: "my-id", "aria-label": "Fruits") do |component|
+      component.input(name: 'input')
+    end
+
+    assert_selector("auto-complete[for=\"my-id\"][src=\"/url\"]") do
+      assert_selector("input[aria-label=\"Fruits\"]")
+      assert_selector("ul[id=\"my-id\"][aria-label=\"Fruits\"]")
+    end
+  end
+
   def test_raises_if_no_label_or_aria_label
     err = assert_raises ArgumentError do
       render_inline Primer::AutoComplete.new(src: "/url", id: "my-id") do |component|
@@ -51,8 +62,8 @@ class PrimerAutoCompleteTest < Minitest::Test
   end
 
   def test_renders_with_icon
-    render_inline Primer::AutoComplete.new(src: "/url", id: "my-id") do |component|
-      component.input(name: "input", "aria-label": "Fruits")
+    render_inline Primer::AutoComplete.new(src: "/url", id: "my-id", "aria-label": "Fruits") do |component|
+      component.input(name: "input")
       component.icon(icon: :person)
     end
 
@@ -63,24 +74,14 @@ class PrimerAutoCompleteTest < Minitest::Test
   end
 
   def test_renders_results_with_custom_classes
-    render_inline Primer::AutoComplete.new(src: "/url", id: "my-id") do |component|
-<<<<<<< HEAD
+    render_inline Primer::AutoComplete.new(src: "/url", id: "my-id", "aria-label": "Fruits") do |component|
       component.input(classes: "custom-class")
-      component.results(classes: "custom-class")
-    end
-
-    assert_selector("auto-complete[for=\"my-id\"][src=\"/url\"]") do
-      assert_selector("input.custom-class")
-      assert_selector("ul[id=\"my-id\"].autocomplete-results.custom-class")
-=======
-      component.input(classes: "custom-class", "aria-label": "Fruits")
-      component.results(classes: "my-class", "aria-label": "Fruits")
+      component.results(classes: "my-class")
     end
 
     assert_selector("auto-complete[for=\"my-id\"][src=\"/url\"]") do
       assert_selector("input[aria-label=\"Fruits\"].custom-class")
       assert_selector("ul[id=\"my-id\"][aria-label=\"Fruits\"].autocomplete-results.my-class")
->>>>>>> 38ed6fbc (update tests, documentation)
     end
   end
 end
