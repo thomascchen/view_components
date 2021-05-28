@@ -2,7 +2,7 @@
 
 ## main
 
-### Accessibility
+### Breaking changes
 
 * Require a label or `aria-label` to be provided for `AutoComplete` component.
 
@@ -45,10 +45,6 @@
     *Manuel Puyol*
 
 ### Breaking changes
-
-* Require a label or `aria-label` to be provided for `AutoComplete` component.
-
-    *Kate Higa*
 
 * Restrict allowed tags for `Truncate`, `Markdown`, and `HiddenTextExpander`.
 

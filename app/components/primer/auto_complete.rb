@@ -24,7 +24,7 @@ module Primer
     renders_one :label, lambda { |**system_arguments|
       raise ArgumentError, "missing keyword: for" if !system_arguments.key?(:for) && !Rails.env.production?
 
-      @input_id_for_label = system_arguments[:for]
+      @label_for_id = system_arguments[:for]
       system_arguments[:tag] = :label
       Primer::BaseComponent.new(**system_arguments)
     }
@@ -35,14 +35,10 @@ module Primer
     # @param system_arguments [Hash] <%= link_to_system_arguments_docs %>
     renders_one :input, lambda { |type: DEFAULT_INPUT_TYPE, classes: "form-control", **system_arguments|
       system_arguments[:tag] = :input
-
-      aria_label = system_arguments[:"aria-label"] || system_arguments.dig(:aria, :label) || @aria_label
-      if @input_id_for_label.present? && @input_id_for_label == system_arguments[:id]
-      elsif aria_label.present?
-        system_arguments[:"aria-label"] = aria_label
-      else
-        raise ArgumentError, "Accessible label is required." unless Rails.env.production?
-      end
+      @input_id = system_arguments[:id]
+      @input_aria_label = system_arguments[:"aria-label"] || system_arguments.dig(:aria, :label) || @aria_label
+      system_arguments[:"aria-label"] = @input_aria_label
+      system_arguments[:aria]&.delete(:label)
 
       system_arguments[:type] = fetch_or_fallback(INPUT_TYPE_OPTIONS, type, DEFAULT_INPUT_TYPE)
       system_arguments[:classes] = classes
@@ -66,6 +62,7 @@ module Primer
 
       aria_label = system_arguments[:"aria-label"] || system_arguments.dig(:aria, :label) || @aria_label
       system_arguments[:"aria-label"] = aria_label if aria_label.present?
+      system_arguments[:aria]&.delete(:label)
 
       Primer::BaseComponent.new(**system_arguments)
     }
@@ -107,8 +104,8 @@ module Primer
     # @param system_arguments [Hash] <%= link_to_system_arguments_docs %>
     def initialize(src:, id:, **system_arguments)
       @list_id = id
-      @input_id_for_label = nil
       @aria_label = system_arguments[:"aria-label"] || system_arguments.dig(:aria, :label)
+
       system_arguments.delete(:"aria-label") && system_arguments[:aria]&.delete(:label)
 
       @system_arguments = system_arguments
@@ -119,6 +116,9 @@ module Primer
 
     # add `results` without needing to explicitly call it in the view
     def before_render
+      raise ArgumentError, "Accessible label is required for form elements." if label.blank? && @input_aria_label.blank?
+      raise ArgumentError, "Input id does not match label for id" if @input_id != @label_for_id
+
       raise ArgumentError, "Missing `input` slot" if input.blank?
 
       results(classes: "") unless results
