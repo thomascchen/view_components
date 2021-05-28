@@ -116,7 +116,7 @@ module Primer
 
     # add `results` without needing to explicitly call it in the view
     def before_render
-      raise ArgumentError, "Accessible label is required for form elements." if label.blank? && @input_aria_label.blank?
+      raise ArgumentError, "Accessible label is required." if label.blank? && @input_aria_label.blank?
       raise ArgumentError, "Input id does not match label for id" if @input_id != @label_for_id
 
       raise ArgumentError, "Missing `input` slot" if input.blank?
