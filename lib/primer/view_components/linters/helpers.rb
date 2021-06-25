@@ -17,7 +17,9 @@ module ERBLint
         base.include(ERBLint::LinterRegistry)
 
         define_method "run" do |processed_source|
-          @offenses_not_corrected = 0
+          @offenses_not_corrected_count = 0
+          @offenses_count = 0
+
           tags = tags(processed_source)
           tag_tree = build_tag_tree(tags)
 
@@ -43,12 +45,14 @@ module ERBLint
           tag_tree.each do |tag, h|
             next unless h[:offense]
 
+            @offenses_count += 1
+
             # We always fix the offenses using blocks. The closing tag corresponds to `<% end %>`.
             if h[:correctable]
               add_offense(tag.loc, h[:message], h[:correction])
               add_offense(h[:closing].loc, h[:message], "<% end %>")
             else
-              @offenses_not_corrected += 1
+              @offenses_not_corrected_count += 1
               generate_offense(self.class, processed_source, tag, h[:message])
             end
           end
@@ -162,7 +166,12 @@ module ERBLint
           end
         end
 
-        if @offenses_not_corrected.zero?
+        if expected_count == @offenses_count
+          clear_offenses
+          return
+        end
+
+        if @offenses_not_corrected_count.zero?
           # have to adjust to get `\n` so we delete the whole line
           add_offense(processed_source.to_source_range(comment_node.loc.adjust(end_pos: 1)), "Unused erblint:count comment for #{rule_name}", "") if comment_node
           return
@@ -171,11 +180,11 @@ module ERBLint
         first_offense = @offenses[0]
 
         if comment_node.nil?
-          add_offense(processed_source.to_source_range(first_offense.source_range), "#{rule_name}: If you must, add <%# erblint:counter #{rule_name} #{@offenses_not_corrected} %> to bypass this check.", "<%# erblint:counter #{rule_name} #{@offenses_not_corrected} %>")
-        elsif expected_count != @offenses_not_corrected
-          add_offense(processed_source.to_source_range(comment_node.loc), "Incorrect erblint:counter number for #{rule_name}. Expected: #{expected_count}, actual: #{@offenses_not_corrected}.", "<%# erblint:counter #{rule_name} #{@offenses_not_corrected} %>")
+          add_offense(processed_source.to_source_range(first_offense.source_range), "#{rule_name}: If you must, add <%# erblint:counter #{rule_name} #{@offenses_not_corrected_count} %> to bypass this check.", "<%# erblint:counter #{rule_name} #{@offenses_not_corrected_count} %>")
+        elsif expected_count != @offenses_not_corrected_count
+          add_offense(processed_source.to_source_range(comment_node.loc), "Incorrect erblint:counter number for #{rule_name}. Expected: #{expected_count}, actual: #{@offenses_not_corrected_count}.", "<%# erblint:counter #{rule_name} #{@offenses_not_corrected_count} %>")
         # the only offenses remaining are not autocorrectable, so we can ignore them
-        elsif expected_count == @offenses_not_corrected && @offenses.size == @offenses_not_corrected
+        elsif expected_count == @offenses_not_corrected_count && @offenses.size == @offenses_not_corrected_count
           clear_offenses
         end
       end

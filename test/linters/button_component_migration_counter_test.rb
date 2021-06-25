@@ -156,18 +156,24 @@ class ButtonComponentMigrationCounterTest < LinterTestCase
       <button class="btn btn-primary">
         button 1
       </button>
+      <button class="btn btn-primary">
+        button 2
+      </button>
     HTML
 
     expected = <<~HTML
       <%= render Primer::ButtonComponent.new(scheme: :primary) do %>
         button 1
       <% end %>
+      <%= render Primer::ButtonComponent.new(scheme: :primary) do %>
+        button 2
+      <% end %>
     HTML
 
     assert_equal expected, corrected_content
   end
 
-  def test_autocorrects_ignore_counts
+  def test_does_not_autocorrect_if_ignored_all_cases
     @file = <<~HTML
       <%# erblint:counter ButtonComponentMigrationCounter 2 %>
       <button class="btn btn-primary">
@@ -179,10 +185,10 @@ class ButtonComponentMigrationCounterTest < LinterTestCase
     HTML
 
     expected = <<~HTML
-      <%# erblint:counter ButtonComponentMigrationCounter 1 %>
-      <%= render Primer::ButtonComponent.new(scheme: :primary) do %>
+      <%# erblint:counter ButtonComponentMigrationCounter 2 %>
+      <button class="btn btn-primary">
         button 1
-      <% end %>
+      </button>
       <button class="btn custom">
         button 1
       </button>
