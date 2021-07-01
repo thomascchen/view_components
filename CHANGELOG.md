@@ -50,6 +50,10 @@ The category for changes related to documentation, testing and tooling. Also, fo
 
     *Manuel Puyol*
 
+* Expand Button linter to deal with known system arguments.
+
+    *Manuel Puyol*
+
 ## 0.0.46
 
 ### Updates
