@@ -2,6 +2,7 @@
 
 require_relative "conversion_error"
 require_relative "system_arguments"
+require "primer/classify/utilities"
 
 module ERBLint
   module Linters
@@ -9,16 +10,16 @@ module ERBLint
       # Maps classes in a button element to arguments for the Button component.
       class Button
         SCHEME_MAPPINGS = {
-          "btn-primary" => ":primary",
-          "btn-danger" => ":danger",
-          "btn-outline" => ":outline",
-          "btn-invisible" => ":invisible",
-          "btn-link" => ":link"
+          "btn-primary" => :primary,
+          "btn-danger" => :danger,
+          "btn-outline" => :outline,
+          "btn-invisible" => :invisible,
+          "btn-link" => :link
         }.freeze
 
         VARIANT_MAPPINGS = {
-          "btn-sm" => ":small",
-          "btn-large" => ":large"
+          "btn-sm" => :small,
+          "btn-large" => :large
         }.freeze
 
         TYPE_OPTIONS = %w[button reset submit].freeze
@@ -28,13 +29,24 @@ module ERBLint
         end
 
         def to_s
-          to_args.map { |k, v| "#{k}: #{v}" }.join(", ")
+          to_args.map do |key, value|
+            val = case value
+                  when Symbol
+                    ":#{value}"
+                  when Numeric
+                    value.to_json
+                  else
+                    value
+                  end
+
+            "#{key}: #{val}"
+          end.join(", ")
         end
 
         def to_args
           args = {}
 
-          args[:tag] = ":#{@tag.name}" unless @tag.name == "button"
+          args[:tag] = @tag.name.to_sym unless @tag.name == "button"
 
           @tag.attributes.each do |attribute|
             attr_name = attribute.name
@@ -49,7 +61,7 @@ module ERBLint
 
               raise ConversionError, "Button component does not support type \"#{attribute.value}\"" unless TYPE_OPTIONS.include?(attribute.value)
 
-              args[:type] = ":#{attribute.value}"
+              args[:type] = attribute.value.to_sym
             else
               # Assume the attribute is a system argument.
               args.merge!(SystemArguments.new(attribute).to_args)
@@ -60,7 +72,9 @@ module ERBLint
         end
 
         def classes_to_args(classes)
-          classes.value.split(" ").each_with_object({}) do |class_name, acc|
+          system_arguments = Primer::Classify::Utilities.classes_to_hash(classes.value)
+
+          button_arguments = (system_arguments[:classes] || "").split(" ").each_with_object({}) do |class_name, acc|
             next if class_name == "btn"
 
             if SCHEME_MAPPINGS[class_name] && acc[:scheme].nil?
@@ -75,6 +89,8 @@ module ERBLint
               raise ConversionError, "Cannot convert class \"#{class_name}\""
             end
           end
+
+          system_arguments.except(:classes).merge(button_arguments)
         end
       end
     end

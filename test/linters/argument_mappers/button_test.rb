@@ -59,7 +59,7 @@ class ArgumentMappersButtonTest < LinterTestCase
       @file = "<button class=\"#{class_name}\">Button</button>"
       args = ERBLint::Linters::ArgumentMappers::Button.new(tags.first).to_args
 
-      assert_equal({ scheme: ":#{value}" }, args)
+      assert_equal({ scheme: value }, args)
     end
   end
 
@@ -70,7 +70,7 @@ class ArgumentMappersButtonTest < LinterTestCase
       @file = "<button class=\"#{class_name}\">Button</button>"
       args = ERBLint::Linters::ArgumentMappers::Button.new(tags.first).to_args
 
-      assert_equal({ variant: ":#{value}" }, args)
+      assert_equal({ variant: value }, args)
     end
   end
 
@@ -82,7 +82,7 @@ class ArgumentMappersButtonTest < LinterTestCase
       @file = "<#{tag} class=\"btn\">Button</#{tag}>"
       args = ERBLint::Linters::ArgumentMappers::Button.new(tags.first).to_args
 
-      assert_equal({ tag: ":#{tag}" }, args)
+      assert_equal({ tag: tag }, args)
     end
   end
 
@@ -94,7 +94,7 @@ class ArgumentMappersButtonTest < LinterTestCase
       @file = "<button class=\"btn\" type=\"#{type}\">Button</button>"
       args = ERBLint::Linters::ArgumentMappers::Button.new(tags.first).to_args
 
-      assert_equal({ type: ":#{type}" }, args)
+      assert_equal({ type: type }, args)
     end
   end
 
@@ -148,23 +148,35 @@ class ArgumentMappersButtonTest < LinterTestCase
     assert_equal "Cannot convert erb block", err.message
   end
 
+  def test_maps_system_arguments
+    @file = '<button class="p-2 mr-1 d-block">Button</button>'
+    args = ERBLint::Linters::ArgumentMappers::Button.new(tags.first).to_args
+
+    assert_equal({
+                   p: 2,
+                   mr: 1,
+                   display: :block
+                 }, args)
+  end
+
   def test_complex_case
     @file = '
-      <button
-        class="btn btn-primary btn-sm btn-block BtnGroup-item"
+      <summary
+        class="btn btn-primary btn-sm btn-block BtnGroup-item mr-1 p-2 d-block"
         aria-label="some label"
         data-pjax
         data-click="click"
         <%= test_selector("some_selector") %>
         disabled
         type="submit"
-      >Button</button>'
+      >Button</summary>'
 
     args = ERBLint::Linters::ArgumentMappers::Button.new(tags.first).to_args
 
     assert_equal({
-                   :scheme => ":primary",
-                   :variant => ":small",
+                   :tag => :summary,
+                   :scheme => :primary,
+                   :variant => :small,
                    :block => true,
                    :group_item => true,
                    '"aria-label"' => '"some label"',
@@ -172,7 +184,10 @@ class ArgumentMappersButtonTest < LinterTestCase
                    '"data-click"' => '"click"',
                    :test_selector => '"some_selector"',
                    :disabled => true,
-                   :type => ":submit"
+                   :type => :submit,
+                   :mr => 1,
+                   :p => 2,
+                   :display => :block
                  }, args)
   end
 
