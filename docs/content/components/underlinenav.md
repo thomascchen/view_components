@@ -10,6 +10,11 @@ import Example from '../../src/@primer/gatsby-theme-doctocat/components/example'
 <!-- Warning: AUTO-GENERATED file, do not edit. Add code comments to your Ruby instead <3 -->
 
 Use `UnderlineNav` to style page links as tabs with an underlined selected state.
+For panel navigation, see [UnderlinePanel](/components/underlinepanel).
+
+- By default, `UnderlineNav` renders links within a `nav` element. Since `nav` has an implicit landmark
+role of `navigation`, it should be used sparingly.
+- For non-major links, set the tag to `:div`.
 
 ## Arguments
 
@@ -45,12 +50,26 @@ Use actions for a call to action.
 
 ## Examples
 
-### Default
+### Default list of links rendered inside `nav` element
 
 <Example src="<nav aria-label='Default' data-view-component='true' class='UnderlineNav'>  <ul data-view-component='true' class='UnderlineNav-body list-style-none'>      <li data-view-component='true' class='d-inline-flex'>  <a href='#' aria-current='page' data-view-component='true' class='UnderlineNav-item'>          Item 1    </a></li>      <li data-view-component='true' class='d-inline-flex'>  <a href='#' data-view-component='true' class='UnderlineNav-item'>          Item 2    </a></li></ul>    <div data-view-component='true' class='UnderlineNav-actions'>    <button type='button' data-view-component='true' class='btn'>    Button!  </button></div></nav>" />
 
 ```erb
 <%= render(Primer::UnderlineNav.new(label: "Default")) do |component| %>
+  <% component.tab(href: "#", selected: true) { "Item 1" } %>
+  <% component.tab(href: "#") { "Item 2" } %>
+  <% component.actions do %>
+    <%= render(Primer::ButtonComponent.new) { "Button!" } %>
+  <% end %>
+<% end %>
+```
+
+### With list of links rendered inside `div` element
+
+<Example src="<div data-view-component='true' class='UnderlineNav'>  <ul aria-label='With :div' data-view-component='true' class='UnderlineNav-body list-style-none'>      <li data-view-component='true' class='d-inline-flex'>  <a href='#' aria-current='page' data-view-component='true' class='UnderlineNav-item'>          Item 1    </a></li>      <li data-view-component='true' class='d-inline-flex'>  <a href='#' data-view-component='true' class='UnderlineNav-item'>          Item 2    </a></li></ul>    <div data-view-component='true' class='UnderlineNav-actions'>    <button type='button' data-view-component='true' class='btn'>    Button!  </button></div></div>" />
+
+```erb
+<%= render(Primer::UnderlineNav.new(tag: :div, label: "With :div")) do |component| %>
   <% component.tab(href: "#", selected: true) { "Item 1" } %>
   <% component.tab(href: "#") { "Item 2" } %>
   <% component.actions do %>

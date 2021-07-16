@@ -2,6 +2,12 @@
 
 module Primer
   # Use `UnderlineNav` to style page links as tabs with an underlined selected state.
+  # For panel navigation, see <%= link_to_component(Primer::UnderlinePanel) %>.
+  #
+  # @accessibilty
+  # - By default, `UnderlineNav` renders links within a `nav` element. Since `nav` has an implicit landmark
+  # role of `navigation`, it should be used sparingly.
+  # - For non-major links, set the tag to `:div`.
   class UnderlineNav < Primer::Component
     include Primer::TabbedComponentHelper
     include Primer::UnderlineNavHelper
@@ -36,8 +42,17 @@ module Primer
       Primer::BaseComponent.new(**system_arguments)
     }
 
-    # @example Default
+    # @example Default list of links rendered inside `nav` element
     #   <%= render(Primer::UnderlineNav.new(label: "Default")) do |component| %>
+    #     <% component.tab(href: "#", selected: true) { "Item 1" } %>
+    #     <% component.tab(href: "#") { "Item 2" } %>
+    #     <% component.actions do %>
+    #       <%= render(Primer::ButtonComponent.new) { "Button!" } %>
+    #     <% end %>
+    #   <% end %>
+    #
+    # @example With list of links rendered inside `div` element
+    #   <%= render(Primer::UnderlineNav.new(tag: :div, label: "With :div")) do |component| %>
     #     <% component.tab(href: "#", selected: true) { "Item 1" } %>
     #     <% component.tab(href: "#") { "Item 2" } %>
     #     <% component.actions do %>
@@ -101,7 +116,11 @@ module Primer
       @body_arguments[:tag] = :ul
       @body_arguments[:classes] = underline_nav_body_classes(@body_arguments[:classes])
 
-      @system_arguments[:"aria-label"] = label
+      if @system_arguments[:tag] == :nav
+        @system_arguments[:"aria-label"] = label
+      else 
+        @body_arguments[:"aria-label"] = label
+      end
     end
 
     private
