@@ -111,19 +111,21 @@ module Primer
 
         @system_arguments = system_arguments
         @id = @system_arguments[:id]
+        @wrapper_arguments = wrapper_arguments
 
         if with_panel || @system_arguments[:tag] == :button
           @system_arguments[:tag] = :button
           @system_arguments[:type] = :button
           @system_arguments[:role] = :tab
           panel_id(panel_id)
+          # https://www.w3.org/TR/wai-aria-practices/#presentation_role
+          @wrapper_arguments[:role] = :presentation
         else
           @system_arguments[:tag] = :a
         end
 
-        @wrapper_arguments = wrapper_arguments
         @wrapper_arguments[:tag] = :li
-        @wrapper_arguments[:display] ||= :flex
+        @wrapper_arguments[:display] ||= :inline_flex
 
         return unless @selected
 
