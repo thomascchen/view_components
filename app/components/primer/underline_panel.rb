@@ -8,9 +8,12 @@ module Primer
 
     # Use to render a button and an associated panel slot. See the example below or refer to <%= link_to_component(Primer::Navigation::TabComponent) %>.
     #
+    # @param id [String] Unique ID of tab.
+    # @param panel_id [String] Unique ID of panel.
     # @param selected [Boolean] Whether the tab is selected.
     # @param system_arguments [Hash] <%= link_to_system_arguments_docs %>
-    renders_many :tabs, lambda { |selected: false, **system_arguments|
+    renders_many :tabs, lambda { |id:, panel_id:, selected: false, **system_arguments|
+      system_arguments[:id] = id
       system_arguments[:classes] = underline_nav_tab_classes(system_arguments[:classes])
 
       Primer::Navigation::TabComponent.new(
@@ -18,6 +21,7 @@ module Primer
         with_panel: true,
         list: true,
         icon_classes: "UnderlineNav-octicon",
+        panel_id: panel_id,
         **system_arguments
       )
     }
@@ -35,13 +39,13 @@ module Primer
 
     # @example Default
     #   <%= render(Primer::UnderlinePanel.new(label: "With panels")) do |component| %>
-    #     <% component.tab(id: "tab-1", selected: true) do |t| %>
+    #     <% component.tab(id: "tab-1", panel_id: "panel-1", selected: true) do |t| %>
     #       <% t.text { "Tab 1" } %>
     #       <% t.panel do %>
     #         Panel 1
     #       <% end %>
     #     <% end %>
-    #     <% component.tab(id: "tab-2") do |t| %>
+    #     <% component.tab(id: "tab-2", panel_id: "panel-2") do |t| %>
     #       <% t.text { "Tab 2" } %>
     #       <% t.panel do %>
     #         Panel 2

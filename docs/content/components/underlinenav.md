@@ -13,13 +13,15 @@ import Example from '../../src/@primer/gatsby-theme-doctocat/components/example'
 Use `UnderlineNav` to style navigation links with a minimal
 underlined selected state, typically placed at the top
 of the page.
-For panel navigation, see [UnderlinePanel](/components/underlinepanel).
+For panel navigation, use [UnderlinePanel](/components/underlinepanel) instead.
 
 ## Accessibility
 
-By default, this renders a list of links within a `<nav>` element.
-`<nav>` has an implicit landmark role of `navigation` which should be reserved for
-main navigation. For regular set of links, set tag to `:div`.
+- By default, `UnderlineNav` renders links within a `<nav>` element. `<nav>` has an
+  implicit landmark role of `navigation` which should be reserved for main links.
+  For a regular set of links, set tag to `:div`.
+- See [NavigationTab](/components/navigationtab) for additional
+  accessibility considerations.
 
 ## Arguments
 
@@ -39,7 +41,6 @@ Use the tabs to list page links.
 
 | Name | Type | Default | Description |
 | :- | :- | :- | :- |
-| `panel_id` | `String` | N/A | Only applies if `with_panel` is `true`. Unique id of panel. |
 | `selected` | `Boolean` | N/A | Whether the tab is selected. |
 | `system_arguments` | `Hash` | N/A | [System arguments](/system-arguments) |
 
@@ -56,7 +57,7 @@ Use actions for a call to action.
 
 ### Default with `<nav>`
 
-This should be reserved for main navigation links. See [Accessibility](#accessibility)
+This should be reserved for main navigation links. See [Accessibility](#accessibility).
 
 <Example src="<nav aria-label='Default with nav element' data-view-component='true' class='UnderlineNav'>  <ul data-view-component='true' class='UnderlineNav-body list-style-none'>      <li data-view-component='true' class='d-inline-flex'>  <a href='#' aria-current='page' data-view-component='true' class='UnderlineNav-item'>          Item 1    </a></li>      <li data-view-component='true' class='d-inline-flex'>  <a href='#' data-view-component='true' class='UnderlineNav-item'>          Item 2    </a></li></ul>    <div data-view-component='true' class='UnderlineNav-actions'>    <button type='button' data-view-component='true' class='btn'>    Button!  </button></div></nav>" />
 
@@ -132,7 +133,7 @@ This should be reserved for main navigation links. See [Accessibility](#accessib
 <Example src="<nav aria-label='Default' data-view-component='true' class='UnderlineNav'>  <ul data-view-component='true' class='UnderlineNav-body custom-class list-style-none border color-border-info'>      <li data-view-component='true' class='d-inline-flex'>  <a href='#' aria-current='page' data-view-component='true' class='UnderlineNav-item'>          Tab 1    </a></li>      <li data-view-component='true' class='d-inline-flex'>  <a href='#' data-view-component='true' class='UnderlineNav-item'>          Tab 2    </a></li>      <li data-view-component='true' class='d-inline-flex'>  <a href='#' data-view-component='true' class='UnderlineNav-item'>          Tab 3    </a></li></ul>    </nav>" />
 
 ```erb
-<%= render(Primer::UnderlineNavComponent.new(label: "Default", body_arguments: { tag: :ul, classes: "custom-class", border: true, border_color: :info })) do |c| %>
+<%= render(Primer::UnderlineNavComponent.new(label: "Default", body_arguments: { classes: "custom-class", border: true, border_color: :info })) do |c| %>
   <% c.tab(selected: true, href: "#") { "Tab 1" }%>
   <% c.tab(href: "#") { "Tab 2" } %>
   <% c.tab(href: "#") { "Tab 3" } %>
