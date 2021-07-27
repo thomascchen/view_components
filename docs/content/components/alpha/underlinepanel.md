@@ -2,12 +2,12 @@
 title: UnderlinePanel
 componentId: underline_panel
 status: Alpha
-source: https://github.com/primer/view_components/tree/main/app/components/primer/underline_panel.rb
-storybook: https://primer.style/view-components/stories/?path=/story/primer-underline-panel
+source: https://github.com/primer/view_components/tree/main/app/components/primer/alpha/underline_panel.rb
+storybook: https://primer.style/view-components/stories/?path=/story/primer-alpha-underline-panel
 ---
 
-import Example from '../../src/@primer/gatsby-theme-doctocat/components/example'
-import RequiresJSFlash from '../../src/@primer/gatsby-theme-doctocat/components/requires-js-flash'
+import Example from '../../../src/@primer/gatsby-theme-doctocat/components/example'
+import RequiresJSFlash from '../../../src/@primer/gatsby-theme-doctocat/components/requires-js-flash'
 
 <RequiresJSFlash />
 
@@ -54,7 +54,7 @@ Use actions for a call to action.
 <Example src="<tab-container data-view-component='true'>  <div data-view-component='true' class='UnderlineNav'>    <ul role='tablist' aria-label='With panels' data-view-component='true' class='UnderlineNav-body list-style-none'>        <li role='presentation' data-view-component='true' class='d-inline-flex'>  <button id='tab-1' type='button' role='tab' aria-controls='panel-1' aria-selected='true' data-view-component='true' class='UnderlineNav-item'>          <span data-view-component='true'>Tab 1</span>    </button></li>        <li role='presentation' data-view-component='true' class='d-inline-flex'>  <button id='tab-2' type='button' role='tab' aria-controls='panel-2' data-view-component='true' class='UnderlineNav-item'>          <span data-view-component='true'>Tab 2</span>    </button></li></ul>      <div data-view-component='true' class='UnderlineNav-actions'>    <button type='button' data-view-component='true' class='btn'>    Button!  </button></div></div>    <div id='panel-1' role='tabpanel' tabindex='0' aria-labelledby='tab-1' data-view-component='true'>      Panel 1</div>    <div id='panel-2' role='tabpanel' tabindex='0' hidden='hidden' aria-labelledby='tab-2' data-view-component='true'>      Panel 2</div></tab-container>" />
 
 ```erb
-<%= render(Primer::UnderlinePanel.new(label: "With panels")) do |component| %>
+<%= render(Primer::Alpha::UnderlinePanel.new(label: "With panels")) do |component| %>
   <% component.tab(id: "tab-1", panel_id: "panel-1", selected: true) do |t| %>
     <% t.text { "Tab 1" } %>
     <% t.panel do %>

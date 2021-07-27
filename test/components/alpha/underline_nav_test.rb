@@ -2,12 +2,12 @@
 
 require "test_helper"
 
-class PrimerUnderlineNavComponentTest < Minitest::Test
+class PrimerUnderlineNavTest
   include Primer::ComponentTestHelpers
 
   def test_raises_if_multiple_tabs_are_selected
     err = assert_raises Primer::TabbedComponentHelper::MultipleSelectedTabsError do
-      render_inline(Primer::UnderlineNavComponent.new(label: "label")) do |c|
+      render_inline(Primer::Alpha::UnderlineNav.new(label: "label")) do |c|
         c.tab(selected: true) do
           "Tab 1"
         end
@@ -23,7 +23,7 @@ class PrimerUnderlineNavComponentTest < Minitest::Test
 
   def test_actions_tag_falls_back_to_default
     without_fetch_or_fallback_raises do
-      render_inline(Primer::UnderlineNavComponent.new(label: "label")) do |component|
+      render_inline(Primer::Alpha::UnderlineNav.new(label: "label")) do |component|
         component.tab(selected: true, href: "#") do |t|
           t.text { "Tab 1" }
         end
@@ -42,7 +42,7 @@ class PrimerUnderlineNavComponentTest < Minitest::Test
 
   def test_align_falls_back_to_default
     without_fetch_or_fallback_raises do
-      render_inline(Primer::UnderlineNavComponent.new(label: "label", align: :foo)) do |component|
+      render_inline(Primer::Alpha::UnderlineNav.new(label: "label", align: :foo)) do |component|
         component.tab(selected: true, href: "#") do |t|
           t.text { "Tab 1" }
         end
@@ -72,7 +72,7 @@ class PrimerUnderlineNavComponentTest < Minitest::Test
   end
 
   def test_adds_underline_nav_right_when_align_right_is_set
-    render_inline(Primer::UnderlineNavComponent.new(label: "label", align: :right)) do |component|
+    render_inline(Primer::Alpha::UnderlineNav.new(label: "label", align: :right)) do |component|
       component.tab(selected: true, href: "#") do |t|
         t.text { "Tab 1" }
       end
@@ -98,7 +98,7 @@ class PrimerUnderlineNavComponentTest < Minitest::Test
   end
 
   def test_puts_actions_first_if_align_right_and_actions_exist
-    render_inline(Primer::UnderlineNavComponent.new(label: "label", align: :right)) do |component|
+    render_inline(Primer::Alpha::UnderlineNav.new(label: "label", align: :right)) do |component|
       component.tab(selected: true, href: "#") do |t|
         t.text { "Tab 1" }
       end
@@ -114,7 +114,7 @@ class PrimerUnderlineNavComponentTest < Minitest::Test
   end
 
   def test_renders_tab_icon_with_correct_classes
-    render_inline(Primer::UnderlineNavComponent.new(label: "label", align: :right)) do |component|
+    render_inline(Primer::Alpha::UnderlineNav.new(label: "label", align: :right)) do |component|
       component.tab(selected: true, href: "#", id: "tab-1") do |t|
         t.text { "Tab 1" }
         t.icon(icon: :star)

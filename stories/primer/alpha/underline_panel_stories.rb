@@ -1,12 +1,14 @@
 # frozen_string_literal: true
 
-class Primer::UnderlinePanelStories < ViewComponent::Storybook::Stories
+require "primer/alpha/underline_panel"
+
+class Primer::Alpha::UnderlinePanelStories < ViewComponent::Storybook::Stories
   layout "storybook_preview"
 
   story(:underline_panel) do
     controls do
       label "aria label"
-      select(:align, Primer::UnderlinePanel::ALIGN_OPTIONS, :left)
+      select(:align, Primer::Alpha::UnderlinePanel::ALIGN_OPTIONS, :left)
     end
 
     content do |c|

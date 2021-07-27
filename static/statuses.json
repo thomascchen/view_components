@@ -1,5 +1,7 @@
 {
   "Primer::Alpha::ButtonMarketing": "alpha",
+  "Primer::Alpha::UnderlineNav": "alpha",
+  "Primer::Alpha::UnderlinePanel": "alpha",
   "Primer::BaseButton": "beta",
   "Primer::BaseComponent": "beta",
   "Primer::Beta::AutoComplete": "beta",
@@ -51,7 +53,5 @@
   "Primer::TimelineItemComponent": "beta",
   "Primer::TimelineItemComponent::BadgeComponent": "alpha",
   "Primer::Tooltip": "beta",
-  "Primer::Truncate": "beta",
-  "Primer::UnderlineNavComponent": "alpha",
-  "Primer::UnderlinePanel": "alpha"
+  "Primer::Truncate": "beta"
 }
