@@ -25,9 +25,6 @@ module Primer
       TAG_DEFAULT = :nav
       TAG_OPTIONS = [TAG_DEFAULT, :div].freeze
 
-      ACTIONS_TAG_DEFAULT = :div
-      ACTIONS_TAG_OPTIONS = [ACTIONS_TAG_DEFAULT, :span].freeze
-
       # Use the tabs to list page links.
       #
       # @param selected [Boolean] Whether the tab is selected.

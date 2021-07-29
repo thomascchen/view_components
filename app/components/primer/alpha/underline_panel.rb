@@ -13,17 +13,18 @@ module Primer
       # @param panel_id [String] Unique ID of panel.
       # @param selected [Boolean] Whether the tab is selected.
       # @param system_arguments [Hash] <%= link_to_system_arguments_docs %>
-      renders_many :tabs, lambda { |id:, panel_id:, selected: false, **system_arguments|
+      renders_many :tabs, lambda { |id:, panel_id:, selected: false, **system_arguments, &block|
         system_arguments[:id] = id
         system_arguments[:classes] = underline_nav_tab_classes(system_arguments[:classes])
 
-        Primer::Navigation::TabComponent.new(
+        @underline_nav.tab(
           selected: selected,
           with_panel: true,
           list: true,
           icon_classes: "UnderlineNav-octicon",
           panel_id: panel_id,
-          **system_arguments
+          **system_arguments,
+          &block
         )
       }
 
@@ -31,11 +32,8 @@ module Primer
       #
       # @param tag [Symbol] (Primer::Alpha::UnderlinePanel::ACTIONS_TAG_DEFAULT) <%= one_of(Primer::Alpha::UnderlinePanel::ACTIONS_TAG_OPTIONS) %>
       # @param system_arguments [Hash] <%= link_to_system_arguments_docs %>
-      renders_one :actions, lambda { |tag: ACTIONS_TAG_DEFAULT, **system_arguments|
-        system_arguments[:tag] = fetch_or_fallback(ACTIONS_TAG_OPTIONS, tag, ACTIONS_TAG_DEFAULT)
-        system_arguments[:classes] = underline_nav_action_classes(system_arguments[:classes])
-
-        Primer::BaseComponent.new(**system_arguments)
+      renders_one :actions, lambda { |tag: ACTIONS_TAG_DEFAULT, **system_arguments, &block|
+        @underline_nav.actions(tag: tag, **system_arguments, &block)
       }
 
       # @example Default
@@ -76,6 +74,14 @@ module Primer
 
         @body_arguments[:role] = :tablist
         @body_arguments[:"aria-label"] = label
+
+        @underline_nav = Primer::Alpha::UnderlineNav.new(
+          tag: :div,
+          label: label,
+          align: @align,
+          body_arguments: @body_arguments,
+          **@system_arguments
+        )
       end
 
       private

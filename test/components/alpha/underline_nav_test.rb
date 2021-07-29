@@ -2,7 +2,7 @@
 
 require "test_helper"
 
-class PrimerUnderlineNavTest
+class PrimerUnderlineNavTest < Minitest::Test
   include Primer::ComponentTestHelpers
 
   def test_raises_if_multiple_tabs_are_selected
