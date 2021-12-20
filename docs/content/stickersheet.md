@@ -971,15 +971,6 @@ Use `TimelineItem` to display items on a vertical timeline, connected by badge e
   <%= render(Primer::Tooltip.new(label: "Even bolder")) { "Default Bold Text" } %>
 </div>
 ```
-## [Truncate](/components/beta/truncate)
-
-Use `Truncate` to shorten overflowing text with an ellipsis.
-
-<Example src="<span data-view-component='true' class='Truncate'>    <span data-view-component='true' class='Truncate-text'>branch-name-that-is-really-long</span></span>" />
-
-```erb
-<%= render(Primer::Beta::Truncate.new) { "branch-name-that-is-really-long" } %>
-```
 ## [Truncate](/components/truncate)
 
 Use `Truncate` to shorten overflowing text with an ellipsis.
@@ -990,6 +981,15 @@ Use `Truncate` to shorten overflowing text with an ellipsis.
 <div class="col-2">
   <%= render(Primer::Truncate.new(tag: :p)) { "branch-name-that-is-really-long" } %>
 </div>
+```
+## [Truncate](/components/beta/truncate)
+
+Use `Truncate` to shorten overflowing text with an ellipsis.
+
+<Example src="<span data-view-component='true' class='Truncate'>    <span data-view-component='true' class='Truncate-text'>branch-name-that-is-really-long</span></span>" />
+
+```erb
+<%= render(Primer::Beta::Truncate.new) { "branch-name-that-is-really-long" } %>
 ```
 ## [UnderlineNav](/components/alpha/underlinenav)
 

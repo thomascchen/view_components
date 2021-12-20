@@ -1,34 +1,4 @@
 ---
-- component: BorderBoxHeader
-  source: https://github.com/primer/view_components/tree/main/app/components/primer/alpha/border_box/header.rb
-  parameters:
-  - name: system_arguments
-    type: Hash
-    default: N/A
-    description: "[System arguments](/system-arguments)"
-- component: ButtonMarketing
-  source: https://github.com/primer/view_components/tree/main/app/components/primer/alpha/button_marketing.rb
-  parameters:
-  - name: scheme
-    type: Symbol
-    default: "`:default`"
-    description: One of `:default`, `:outline`, `:primary`, or `:transparent`.
-  - name: variant
-    type: Symbol
-    default: "`:default`"
-    description: One of `:default` and `:large`.
-  - name: tag
-    type: Symbol
-    default: "`:button`"
-    description: One of `:a` and `:button`.
-  - name: type
-    type: Symbol
-    default: "`:button`"
-    description: One of `:button` and `:submit`.
-  - name: system_arguments
-    type: Hash
-    default: N/A
-    description: "[System arguments](/system-arguments)"
 - component: Layout
   source: https://github.com/primer/view_components/tree/main/app/components/primer/alpha/layout.rb
   parameters:
@@ -51,113 +21,137 @@
     type: Hash
     default: N/A
     description: "[System arguments](/system-arguments)"
-- component: TabNav
-  source: https://github.com/primer/view_components/tree/main/app/components/primer/alpha/tab_nav.rb
+- component: HellipButton
+  source: https://github.com/primer/view_components/tree/main/app/components/primer/hellip_button.rb
   parameters:
+  - name: inline
+    type: Boolean
+    default: "`false`"
+    description: Whether or not the button is inline.
+  - name: system_arguments
+    type: Hash
+    default: N/A
+    description: "[System arguments](/system-arguments)"
+- component: BorderBoxHeader
+  source: https://github.com/primer/view_components/tree/main/app/components/primer/alpha/border_box/header.rb
+  parameters:
+  - name: system_arguments
+    type: Hash
+    default: N/A
+    description: "[System arguments](/system-arguments)"
+- component: Image
+  source: https://github.com/primer/view_components/tree/main/app/components/primer/image.rb
+  parameters:
+  - name: src
+    type: String
+    default: N/A
+    description: The source url of the image.
+  - name: alt
+    type: String
+    default: N/A
+    description: Specifies an alternate text for the image.
+  - name: lazy
+    type: Boolean
+    default: "`false`"
+    description: Whether or not to lazily load the image.
+  - name: system_arguments
+    type: Hash
+    default: N/A
+    description: "[System arguments](/system-arguments)"
+- component: LocalTime
+  source: https://github.com/primer/view_components/tree/main/app/components/primer/local_time.rb
+  parameters:
+  - name: datetime
+    type: DateTime
+    default: N/A
+    description: The date to parse
+  - name: initial_text
+    type: String
+    default: "`nil`"
+    description: Text to render before component is initialized
+  - name: weekday
+    type: Symbol
+    default: "`:short`"
+    description: One of `:long` and `:short`.
+  - name: year
+    type: Symbol
+    default: "`:numeric`"
+    description: One of `:2-digit` and `:numeric`.
+  - name: month
+    type: Symbol
+    default: "`:short`"
+    description: One of `:long` and `:short`.
+  - name: day
+    type: Symbol
+    default: "`:numeric`"
+    description: One of `:2-digit` and `:numeric`.
+  - name: hour
+    type: Symbol
+    default: "`:numeric`"
+    description: One of `:2-digit` and `:numeric`.
+  - name: minute
+    type: Symbol
+    default: "`:numeric`"
+    description: One of `:2-digit` and `:numeric`.
+  - name: second
+    type: Symbol
+    default: "`:numeric`"
+    description: One of `:2-digit` and `:numeric`.
+  - name: time_zone_name
+    type: Symbol
+    default: "`:short`"
+    description: One of `:long` and `:short`.
+  - name: system_arguments
+    type: Hash
+    default: N/A
+    description: "[System arguments](/system-arguments)"
+- component: OcticonSymbols
+  source: https://github.com/primer/view_components/tree/main/app/components/primer/octicon_symbols_component.rb
+  parameters:
+  - name: icons
+    type: Array<Hash>
+    default: "`[]`"
+    description: 'List of icons to render, in the format { symbol: :icon_name, size:
+      :small }'
+- component: ImageCrop
+  source: https://github.com/primer/view_components/tree/main/app/components/primer/image_crop.rb
+  parameters:
+  - name: src
+    type: String
+    default: N/A
+    description: The path of the image to crop.
+  - name: rounded
+    type: Boolean
+    default: "`true`"
+    description: If the crop mask should be a circle. Defaults to true.
+  - name: system_arguments
+    type: Hash
+    default: N/A
+    description: "[System arguments](/system-arguments)"
+- component: IconButton
+  source: https://github.com/primer/view_components/tree/main/app/components/primer/icon_button.rb
+  parameters:
+  - name: scheme
+    type: Symbol
+    default: "`:default`"
+    description: One of `:danger` and `:default`.
+  - name: icon
+    type: String
+    default: N/A
+    description: Name of [Octicon](https://primer.style/octicons/) to use.
   - name: tag
     type: Symbol
-    default: "`:nav`"
-    description: One of `:div` and `:nav`.
-  - name: label
-    type: String
     default: N/A
-    description: Sets an `aria-label` that helps assistive technology users understand
-      the purpose of the links, and distinguish it from similar elements.
-  - name: body_arguments
-    type: Hash
-    default: "`{}`"
-    description: "[System arguments](/system-arguments) for the body wrapper."
-  - name: system_arguments
-    type: Hash
-    default: N/A
-    description: "[System arguments](/system-arguments)"
-- component: TabPanels
-  source: https://github.com/primer/view_components/tree/main/app/components/primer/alpha/tab_panels.rb
-  parameters:
-  - name: label
-    type: String
-    default: N/A
-    description: Sets an `aria-label` that helps assistive technology users understand
-      the purpose of the tabs.
-  - name: align
-    type: Symbol
-    default: N/A
-    description: One of `:left` and `:right`. - Defaults to left
-  - name: body_arguments
-    type: Hash
-    default: "`{}`"
-    description: "[System arguments](/system-arguments) for the body wrapper."
-  - name: wrapper_arguments
-    type: Hash
-    default: "`{}`"
-    description: "[System arguments](/system-arguments) for the `TabContainer` wrapper."
-  - name: system_arguments
-    type: Hash
-    default: N/A
-    description: "[System arguments](/system-arguments)"
-- component: UnderlineNav
-  source: https://github.com/primer/view_components/tree/main/app/components/primer/alpha/underline_nav.rb
-  parameters:
-  - name: tag
-    type: Symbol
-    default: "`:nav`"
-    description: One of `:div` and `:nav`.
-  - name: label
-    type: String
-    default: N/A
-    description: Sets an `aria-label` that helps assistive technology users understand
-      the purpose of the links, and distinguish it from similar elements.
-  - name: align
-    type: Symbol
-    default: "`:left`"
-    description: One of `:left` and `:right`. - Defaults to left
-  - name: body_arguments
-    type: Hash
-    default: "`{}`"
-    description: "[System arguments](/system-arguments) for the body wrapper."
-  - name: system_arguments
-    type: Hash
-    default: N/A
-    description: "[System arguments](/system-arguments)"
-- component: UnderlinePanels
-  source: https://github.com/primer/view_components/tree/main/app/components/primer/alpha/underline_panels.rb
-  parameters:
-  - name: label
-    type: String
-    default: N/A
-    description: Sets an `aria-label` that helps assistive technology users understand
-      the purpose of the tabs.
-  - name: align
-    type: Symbol
-    default: "`:left`"
-    description: One of `:left` and `:right`. - Defaults to left
-  - name: body_arguments
-    type: Hash
-    default: "`{}`"
-    description: "[System arguments](/system-arguments) for the body wrapper."
-  - name: wrapper_arguments
-    type: Hash
-    default: "`{}`"
-    description: "[System arguments](/system-arguments) for the `TabContainer` wrapper."
-  - name: system_arguments
-    type: Hash
-    default: N/A
-    description: "[System arguments](/system-arguments)"
-- component: BaseButton
-  source: https://github.com/primer/view_components/tree/main/app/components/primer/base_button.rb
-  parameters:
-  - name: tag
-    type: Symbol
-    default: "`:button`"
     description: One of `:a`, `:button`, or `:summary`.
   - name: type
     type: Symbol
-    default: "`:button`"
+    default: N/A
     description: One of `:button`, `:reset`, or `:submit`.
-  - name: block
+  - name: box
     type: Boolean
     default: "`false`"
-    description: 'Whether button is full-width with `display: block`.'
+    description: Whether the button is in a [BorderBox](/components/borderbox). If
+      `true`, the button will have the `Box-btn-octicon` class.
   - name: system_arguments
     type: Hash
     default: N/A
@@ -253,6 +247,25 @@
     type: Hash
     default: N/A
     description: "[System arguments](/system-arguments)"
+- component: BaseButton
+  source: https://github.com/primer/view_components/tree/main/app/components/primer/base_button.rb
+  parameters:
+  - name: tag
+    type: Symbol
+    default: "`:button`"
+    description: One of `:a`, `:button`, or `:summary`.
+  - name: type
+    type: Symbol
+    default: "`:button`"
+    description: One of `:button`, `:reset`, or `:submit`.
+  - name: block
+    type: Boolean
+    default: "`false`"
+    description: 'Whether button is full-width with `display: block`.'
+  - name: system_arguments
+    type: Hash
+    default: N/A
+    description: "[System arguments](/system-arguments)"
 - component: Blankslate
   source: https://github.com/primer/view_components/tree/main/app/components/primer/beta/blankslate.rb
   parameters:
@@ -272,31 +285,6 @@
     type: Hash
     default: N/A
     description: "[System arguments](/system-arguments)"
-- component: Breadcrumbs
-  source: https://github.com/primer/view_components/tree/main/app/components/primer/beta/breadcrumbs.rb
-  parameters:
-  - name: system_arguments
-    type: Hash
-    default: N/A
-    description: "[System arguments](/system-arguments)"
-- component: Text
-  source: https://github.com/primer/view_components/tree/main/app/components/primer/beta/text.rb
-  parameters:
-  - name: tag
-    type: Symbol
-    default: "`:span`"
-    description: ''
-  - name: system_arguments
-    type: Hash
-    default: N/A
-    description: "[System arguments](/system-arguments)"
-- component: Truncate
-  source: https://github.com/primer/view_components/tree/main/app/components/primer/beta/truncate.rb
-  parameters:
-  - name: system_arguments
-    type: Hash
-    default: N/A
-    description: "[System arguments](/system-arguments)"
 - component: BorderBox
   source: https://github.com/primer/view_components/tree/main/app/components/primer/border_box_component.rb
   parameters:
@@ -310,6 +298,13 @@
     description: "[System arguments](/system-arguments)"
 - component: Box
   source: https://github.com/primer/view_components/tree/main/app/components/primer/box_component.rb
+  parameters:
+  - name: system_arguments
+    type: Hash
+    default: N/A
+    description: "[System arguments](/system-arguments)"
+- component: Breadcrumbs
+  source: https://github.com/primer/view_components/tree/main/app/components/primer/beta/breadcrumbs.rb
   parameters:
   - name: system_arguments
     type: Hash
@@ -366,6 +361,29 @@
     type: Symbol
     default: "`:medium`"
     description: One of `:medium` and `:small`.
+  - name: system_arguments
+    type: Hash
+    default: N/A
+    description: "[System arguments](/system-arguments)"
+- component: ButtonMarketing
+  source: https://github.com/primer/view_components/tree/main/app/components/primer/alpha/button_marketing.rb
+  parameters:
+  - name: scheme
+    type: Symbol
+    default: "`:default`"
+    description: One of `:default`, `:outline`, `:primary`, or `:transparent`.
+  - name: variant
+    type: Symbol
+    default: "`:default`"
+    description: One of `:default` and `:large`.
+  - name: tag
+    type: Symbol
+    default: "`:button`"
+    description: One of `:a` and `:button`.
+  - name: type
+    type: Symbol
+    default: "`:button`"
+    description: One of `:button` and `:submit`.
   - name: system_arguments
     type: Hash
     default: N/A
@@ -566,17 +584,6 @@
     type: Hash
     default: N/A
     description: "[System arguments](/system-arguments)"
-- component: HellipButton
-  source: https://github.com/primer/view_components/tree/main/app/components/primer/hellip_button.rb
-  parameters:
-  - name: inline
-    type: Boolean
-    default: "`false`"
-    description: Whether or not the button is inline.
-  - name: system_arguments
-    type: Hash
-    default: N/A
-    description: "[System arguments](/system-arguments)"
 - component: HiddenTextExpander
   source: https://github.com/primer/view_components/tree/main/app/components/primer/hidden_text_expander.rb
   parameters:
@@ -588,68 +595,6 @@
     type: Hash
     default: "`{}`"
     description: "[System arguments](/system-arguments) for the button element."
-  - name: system_arguments
-    type: Hash
-    default: N/A
-    description: "[System arguments](/system-arguments)"
-- component: IconButton
-  source: https://github.com/primer/view_components/tree/main/app/components/primer/icon_button.rb
-  parameters:
-  - name: scheme
-    type: Symbol
-    default: "`:default`"
-    description: One of `:danger` and `:default`.
-  - name: icon
-    type: String
-    default: N/A
-    description: Name of [Octicon](https://primer.style/octicons/) to use.
-  - name: tag
-    type: Symbol
-    default: N/A
-    description: One of `:a`, `:button`, or `:summary`.
-  - name: type
-    type: Symbol
-    default: N/A
-    description: One of `:button`, `:reset`, or `:submit`.
-  - name: box
-    type: Boolean
-    default: "`false`"
-    description: Whether the button is in a [BorderBox](/components/borderbox). If
-      `true`, the button will have the `Box-btn-octicon` class.
-  - name: system_arguments
-    type: Hash
-    default: N/A
-    description: "[System arguments](/system-arguments)"
-- component: Image
-  source: https://github.com/primer/view_components/tree/main/app/components/primer/image.rb
-  parameters:
-  - name: src
-    type: String
-    default: N/A
-    description: The source url of the image.
-  - name: alt
-    type: String
-    default: N/A
-    description: Specifies an alternate text for the image.
-  - name: lazy
-    type: Boolean
-    default: "`false`"
-    description: Whether or not to lazily load the image.
-  - name: system_arguments
-    type: Hash
-    default: N/A
-    description: "[System arguments](/system-arguments)"
-- component: ImageCrop
-  source: https://github.com/primer/view_components/tree/main/app/components/primer/image_crop.rb
-  parameters:
-  - name: src
-    type: String
-    default: N/A
-    description: The path of the image to crop.
-  - name: rounded
-    type: Boolean
-    default: "`true`"
-    description: If the crop mask should be a circle. Defaults to true.
   - name: system_arguments
     type: Hash
     default: N/A
@@ -719,53 +664,6 @@
     type: Boolean
     default: "`true`"
     description: Whether or not to underline the link.
-  - name: system_arguments
-    type: Hash
-    default: N/A
-    description: "[System arguments](/system-arguments)"
-- component: LocalTime
-  source: https://github.com/primer/view_components/tree/main/app/components/primer/local_time.rb
-  parameters:
-  - name: datetime
-    type: DateTime
-    default: N/A
-    description: The date to parse
-  - name: initial_text
-    type: String
-    default: "`nil`"
-    description: Text to render before component is initialized
-  - name: weekday
-    type: Symbol
-    default: "`:short`"
-    description: One of `:long` and `:short`.
-  - name: year
-    type: Symbol
-    default: "`:numeric`"
-    description: One of `:2-digit` and `:numeric`.
-  - name: month
-    type: Symbol
-    default: "`:short`"
-    description: One of `:long` and `:short`.
-  - name: day
-    type: Symbol
-    default: "`:numeric`"
-    description: One of `:2-digit` and `:numeric`.
-  - name: hour
-    type: Symbol
-    default: "`:numeric`"
-    description: One of `:2-digit` and `:numeric`.
-  - name: minute
-    type: Symbol
-    default: "`:numeric`"
-    description: One of `:2-digit` and `:numeric`.
-  - name: second
-    type: Symbol
-    default: "`:numeric`"
-    description: One of `:2-digit` and `:numeric`.
-  - name: time_zone_name
-    type: Symbol
-    default: "`:short`"
-    description: One of `:long` and `:short`.
   - name: system_arguments
     type: Hash
     default: N/A
@@ -844,14 +742,6 @@
     type: Hash
     default: N/A
     description: "[System arguments](/system-arguments)"
-- component: OcticonSymbols
-  source: https://github.com/primer/view_components/tree/main/app/components/primer/octicon_symbols_component.rb
-  parameters:
-  - name: icons
-    type: Array<Hash>
-    default: "`[]`"
-    description: 'List of icons to render, in the format { symbol: :icon_name, size:
-      :small }'
 - component: Popover
   source: https://github.com/primer/view_components/tree/main/app/components/primer/popover_component.rb
   parameters:
@@ -866,21 +756,6 @@
     type: Symbol
     default: "`:default`"
     description: One of `:default`, `:large`, or `:small`. Increases height.
-  - name: system_arguments
-    type: Hash
-    default: N/A
-    description: "[System arguments](/system-arguments)"
-- component: Spinner
-  source: https://github.com/primer/view_components/tree/main/app/components/primer/spinner_component.rb
-  parameters:
-  - name: size
-    type: Symbol
-    default: "`:medium`"
-    description: One of `[:large, 64]`, `[:medium, 32]`, or `[:small, 16]`.
-  - name: style
-    type: String
-    default: "`box-sizing: content-box; color: var(--color-icon-primary);`"
-    description: Custom element styles.
   - name: system_arguments
     type: Hash
     default: N/A
@@ -909,6 +784,21 @@
     type: Hash
     default: N/A
     description: "[System arguments](/system-arguments)"
+- component: Spinner
+  source: https://github.com/primer/view_components/tree/main/app/components/primer/spinner_component.rb
+  parameters:
+  - name: size
+    type: Symbol
+    default: "`:medium`"
+    description: One of `[:large, 64]`, `[:medium, 32]`, or `[:small, 16]`.
+  - name: style
+    type: String
+    default: "`box-sizing: content-box; color: var(--color-icon-primary);`"
+    description: Custom element styles.
+  - name: system_arguments
+    type: Hash
+    default: N/A
+    description: "[System arguments](/system-arguments)"
 - component: Subhead
   source: https://github.com/primer/view_components/tree/main/app/components/primer/subhead_component.rb
   parameters:
@@ -927,6 +817,17 @@
 - component: TabContainer
   source: https://github.com/primer/view_components/tree/main/app/components/primer/tab_container_component.rb
   parameters:
+  - name: system_arguments
+    type: Hash
+    default: N/A
+    description: "[System arguments](/system-arguments)"
+- component: Text
+  source: https://github.com/primer/view_components/tree/main/app/components/primer/beta/text.rb
+  parameters:
+  - name: tag
+    type: Symbol
+    default: "`:span`"
+    description: ''
   - name: system_arguments
     type: Hash
     default: N/A
@@ -1010,6 +911,105 @@
     type: Integer
     default: "`nil`"
     description: Sets the max-width of the text.
+  - name: system_arguments
+    type: Hash
+    default: N/A
+    description: "[System arguments](/system-arguments)"
+- component: Truncate
+  source: https://github.com/primer/view_components/tree/main/app/components/primer/beta/truncate.rb
+  parameters:
+  - name: system_arguments
+    type: Hash
+    default: N/A
+    description: "[System arguments](/system-arguments)"
+- component: UnderlineNav
+  source: https://github.com/primer/view_components/tree/main/app/components/primer/alpha/underline_nav.rb
+  parameters:
+  - name: tag
+    type: Symbol
+    default: "`:nav`"
+    description: One of `:div` and `:nav`.
+  - name: label
+    type: String
+    default: N/A
+    description: Sets an `aria-label` that helps assistive technology users understand
+      the purpose of the links, and distinguish it from similar elements.
+  - name: align
+    type: Symbol
+    default: "`:left`"
+    description: One of `:left` and `:right`. - Defaults to left
+  - name: body_arguments
+    type: Hash
+    default: "`{}`"
+    description: "[System arguments](/system-arguments) for the body wrapper."
+  - name: system_arguments
+    type: Hash
+    default: N/A
+    description: "[System arguments](/system-arguments)"
+- component: UnderlinePanels
+  source: https://github.com/primer/view_components/tree/main/app/components/primer/alpha/underline_panels.rb
+  parameters:
+  - name: label
+    type: String
+    default: N/A
+    description: Sets an `aria-label` that helps assistive technology users understand
+      the purpose of the tabs.
+  - name: align
+    type: Symbol
+    default: "`:left`"
+    description: One of `:left` and `:right`. - Defaults to left
+  - name: body_arguments
+    type: Hash
+    default: "`{}`"
+    description: "[System arguments](/system-arguments) for the body wrapper."
+  - name: wrapper_arguments
+    type: Hash
+    default: "`{}`"
+    description: "[System arguments](/system-arguments) for the `TabContainer` wrapper."
+  - name: system_arguments
+    type: Hash
+    default: N/A
+    description: "[System arguments](/system-arguments)"
+- component: TabNav
+  source: https://github.com/primer/view_components/tree/main/app/components/primer/alpha/tab_nav.rb
+  parameters:
+  - name: tag
+    type: Symbol
+    default: "`:nav`"
+    description: One of `:div` and `:nav`.
+  - name: label
+    type: String
+    default: N/A
+    description: Sets an `aria-label` that helps assistive technology users understand
+      the purpose of the links, and distinguish it from similar elements.
+  - name: body_arguments
+    type: Hash
+    default: "`{}`"
+    description: "[System arguments](/system-arguments) for the body wrapper."
+  - name: system_arguments
+    type: Hash
+    default: N/A
+    description: "[System arguments](/system-arguments)"
+- component: TabPanels
+  source: https://github.com/primer/view_components/tree/main/app/components/primer/alpha/tab_panels.rb
+  parameters:
+  - name: label
+    type: String
+    default: N/A
+    description: Sets an `aria-label` that helps assistive technology users understand
+      the purpose of the tabs.
+  - name: align
+    type: Symbol
+    default: N/A
+    description: One of `:left` and `:right`. - Defaults to left
+  - name: body_arguments
+    type: Hash
+    default: "`{}`"
+    description: "[System arguments](/system-arguments) for the body wrapper."
+  - name: wrapper_arguments
+    type: Hash
+    default: "`{}`"
+    description: "[System arguments](/system-arguments) for the `TabContainer` wrapper."
   - name: system_arguments
     type: Hash
     default: N/A
