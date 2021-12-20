@@ -108,7 +108,39 @@ namespace :docs do
     # Deletes docs before regenerating them, guaranteeing that we don't keep stale docs.
     FileUtils.rm_rf(Dir.glob("docs/content/components/**/*.md"))
 
-    components.sort_by(&:name).each do |component|
+    path = "docs/content/stickersheet.md"
+
+    File.open(path, "w") do |f|
+      f.puts("---")
+      f.puts("title: Sticker sheet")
+      f.puts("---")
+      f.puts
+
+      components.sort_by { |component| status_module_and_short_name(component)[1] }.each do |component|
+        documentation = registry.get(component.name)
+
+        f.puts("## #{link_to_component(component)}")
+        f.puts
+        f.puts(view_context.render(inline: documentation.base_docstring))
+        f.puts
+
+        initialize_method = documentation.meths.find(&:constructor?)
+        initialize_method.tags(:example).first(1).each do |tag|
+          name, description, code = parse_example_tag(tag)
+          html = view_context.render(inline: code)
+          html.scan(/class="([^"]*)"/) do |classnames|
+            classes_found_in_examples.concat(classnames[0].split.reject { |c| c.starts_with?("octicon", "js", "my-") }.map { ".#{_1}" })
+          end
+          f.puts("<Example src=\"#{html.tr('"', "\'").delete("\n")}\" />")
+          f.puts
+          f.puts("```erb")
+          f.puts(code.to_s)
+          f.puts("```")
+        end
+      end
+    end
+
+    components.each do |component|
       documentation = registry.get(component.name)
 
       data = docs_metadata(component)
@@ -411,7 +443,11 @@ namespace :docs do
     YARD::Tags::Library.define_tag("Parameter", :param, :with_types_name_and_default)
 
     puts "Building YARD documentation."
-    Rake::Task["yard"].execute
+    begin
+      Rake::Task["yard"].execute
+    rescue => e
+      puts e.backtrace
+    end
 
     registry = YARD::RegistryStore.new
     registry.load!(".yardoc")
